@@ -1,0 +1,161 @@
+/* Global Styles */
+body {
+    font-family: Arial, Helvetica, sans-serif;
+    margin: 0;
+    padding: 0;
+    background: linear-gradient(to bottom, #001ec7, #213ac4);
+    min-height: 100vh;
+    display: block;
+}
+
+h1,
+h2,
+p {
+    text-align: center;
+}
+
+label {
+       display: block;
+       margin-bottom: 0.5rem;  /* Adjust as needed */
+}
+
+/* Form Elements */
+input,
+textarea,
+button,
+select {
+    width: 100%;
+    margin-bottom: 15px;
+    padding: 10px;
+    box-sizing: border-box;
+    border: 1px solid rgba(200, 200, 200, 0.6);
+    border-radius: 10px;
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(5px);
+    box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1);
+    transition: background 0.3s ease, box-shadow 0.3s ease;
+    color: white;
+}
+
+button {
+    background-color: #007bff;
+    color: white;
+    border: none;
+    cursor: pointer;
+}
+
+button:hover {
+    background-color: #0056b3;
+}
+
+select {
+    /* Hide the native arrow */
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+
+    /* Custom padding (top right bottom left) */
+    padding: 10px 35px 10px 10px;
+
+    /* Custom background arrow using an SVG, adjust URL or SVG code if needed */
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6'%3E%3Cpath fill='white' d='M0 0l5 6 5-6z'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+
+    /* Position the arrow at the right with some extra spacing */
+    background-position: right 10px center;
+    background-size: 10px 6px;
+}
+
+/* Container for the enigma machine */
+.container {
+    width: 70%;
+    margin: 50px auto;
+    padding: 20px;
+    color: white;
+    background: rgba(82, 103, 219, 0.2);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+    border: 1px solid rgba(255, 255, 255, 0.18);
+    box-sizing: border-box;
+    max-width: none;
+}
+
+.error {
+    color: red;
+    font-weight: bold;
+    text-align: center;
+}
+
+/* Dropdown row groups */
+.dropdown-row {
+    display: flex;
+    gap: 1rem;
+    margin-bottom: 0.5rem;
+}
+
+.dropdown-row select {
+    flex: 1;
+}
+
+.dropdown-row label {
+    min-width: fit-content;
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+}
+
+/* Two-column layout for medium (768px) and larger screens */
+.columns-container {
+    display: block;
+}
+
+.left-column,
+.right-column {
+    width: 100%;
+}
+
+/* Consistent vertical spacing for right column */
+.right-column .form-group {
+    margin-bottom: 0.5rem;
+}
+
+@media (min-width: 768px) {
+    .columns-container {
+        display: flex;
+        gap: 1rem;
+    }
+    .left-column {
+        width: 60%;
+    }
+    .right-column {
+        width: 40%;
+    }
+    .dropdown-row {
+        gap: 0.7rem;
+    }
+}
+
+.output {
+    margin-top: 1rem;
+}
+
+input::placeholder,
+textarea::placeholder,
+select::placeholder {
+    color: rgba(255, 255, 255, 0.7);
+}
+
+::-webkit-input-placeholder {
+    color: rgba(255, 255, 255, 0.7);
+}
+:-ms-input-placeholder {
+    color: rgba(255, 255, 255, 0.7);
+}
+::-ms-input-placeholder {
+    color: rgba(255, 255, 255, 0.7);
+}

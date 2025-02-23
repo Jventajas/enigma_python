@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Enigma Machine</title>
+    <link rel="stylesheet" href="/static/style.css">
+    <link rel="icon" href="data:,">
+    <script>
+        function handlePlugboardInput(input) {
+            // Get the raw input value
+            let value = input.value;
+
+            // Remove all non-letters (regex: keep A-Z and a-z only) and convert to uppercase
+            value = value.replace(/[^a-zA-Z]/g, '').toUpperCase();
+
+            // Split the string into groups of two letters, inserting spaces after every pair
+            let formattedValue = '';
+            for (let i = 0; i < value.length; i++) {
+                if (i > 0 && i % 2 === 0) {
+                    formattedValue += ' ';
+                }
+                formattedValue += value[i];
+            }
+
+            // Handle backspace: Ensure no trailing space if the user deletes a character
+            if (value.length > 0 && value.length % 2 === 1 && formattedValue.endsWith(' ')) {
+                formattedValue = formattedValue.slice(0, -1);
+            }
+
+            // Update the input field's value
+            input.value = formattedValue;
+        }
+    </script>
+</head>
+<body>
+<div class="container">
+    <h1>Enigma Machine</h1>
+    {% if error %}
+    <div class="error">Error: {{ error }}</div>
+    {% endif %}
+    <form method="post" action="/">
+        <label for="plaintext">Plaintext:</label>
+        <textarea id="plaintext" name="plaintext" rows="4" cols="50" required>{{ plaintext | default('') }}</textarea><br>
+
+        <div class="columns-container">
+            <!-- Left Column: Rotors, positions, and ring inputs -->
+            <div class="left-column">
+                <!-- Row for Rotor I -->
+                <div class="dropdown-row">
+                    <div class="form-group">
+                        <label for="left_rotor">Rotor I</label>
+                        <select name="left_rotor" id="left_rotor" required>
+                            <option value="I">Rotor I</option>
+                            <option value="II">Rotor II</option>
+                            <option value="III">Rotor III</option>
+                            <option value="IV">Rotor IV</option>
+                            <option value="V">Rotor V</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="left_initial_position">Position</label>
+                        <select name="left_initial_position" id="left_initial_position" required>
+                            {% for letter in "ABCDEFGHIJKLMNOPQRSTUVWXYZ" %}
+                            <option value="{{ letter }}">{{ letter }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="left_ring_setting">Ring</label>
+                        <select name="left_ring_setting" id="left_ring_setting" required>
+                            {% for letter in "ABCDEFGHIJKLMNOPQRSTUVWXYZ" %}
+                            <option value="{{ letter }}">{{ letter }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                </div>
+
+                <!-- Row for Rotor II -->
+                <div class="dropdown-row">
+                    <div class="form-group">
+                        <label for="center_rotor">Rotor II</label>
+                        <select name="center_rotor" id="center_rotor" required>
+                            <option value="I">Rotor I</option>
+                            <option value="II" selected>Rotor II</option>
+                            <option value="III">Rotor III</option>
+                            <option value="IV">Rotor IV</option>
+                            <option value="V">Rotor V</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="center_initial_position">Position</label>
+                        <select name="center_initial_position" id="center_initial_position" required>
+                            {% for letter in "ABCDEFGHIJKLMNOPQRSTUVWXYZ" %}
+                            <option value="{{ letter }}">{{ letter }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="center_ring_setting">Ring</label>
+                        <select name="center_ring_setting" id="center_ring_setting" required>
+                            {% for letter in "ABCDEFGHIJKLMNOPQRSTUVWXYZ" %}
+                            <option value="{{ letter }}">{{ letter }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                </div>
+
+                <!-- Row for Rotor III -->
+                <div class="dropdown-row">
+                    <div class="form-group">
+                        <label for="right_rotor">Rotor III</label>
+                        <select name="right_rotor" id="right_rotor" required>
+                            <option value="I">Rotor I</option>
+                            <option value="II">Rotor II</option>
+                            <option value="III" selected>Rotor III</option>
+                            <option value="IV">Rotor IV</option>
+                            <option value="V">Rotor V</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="right_initial_position">Position</label>
+                        <select name="right_initial_position" id="right_initial_position" required>
+                            {% for letter in "ABCDEFGHIJKLMNOPQRSTUVWXYZ" %}
+                            <option value="{{ letter }}">{{ letter }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="right_ring_setting">Ring</label>
+                        <select name="right_ring_setting" id="right_ring_setting" required>
+                            {% for letter in "ABCDEFGHIJKLMNOPQRSTUVWXYZ" %}
+                            <option value="{{ letter }}">{{ letter }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                </div>
+            </div>
+
+            <div class="right-column">
+                <div class="form-group">
+                    <label for="reflector">Reflector</label>
+                    <select name="reflector" id="reflector" required>
+                        <option value="A">Reflector A</option>
+                        <option value="B">Reflector B</option>
+                        <option value="C">Reflector C</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="plugboard">Plugboard</label>
+                    <input type="text" id="plugboard" name="plugboard"
+                           value="AB CD EF"
+                           oninput="handlePlugboardInput(this)"
+                           placeholder="Enter plugboard settings">
+                </div>
+            </div>
+
+        </div>
+
+        <button type="submit">Encrypt</button>
+
+        <div class="output">
+            <label for="ciphertext">Encrypted Text:</label>
+            <textarea
+                    id="ciphertext"
+                    name="ciphertext"
+                    rows="4"
+                    readonly>{{ ciphertext | default('') }}
+            </textarea>
+        </div>
+    </form>
+</div>
+</body>
+</html>
