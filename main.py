@@ -82,7 +82,6 @@ async def encode(
             }
         )
     except Exception as e:
-        pass
         return templates.TemplateResponse(
             "index.html",
             {
