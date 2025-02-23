@@ -69,7 +69,7 @@ class Enigma:
         :return: The resulting encrypted or decrypted text.
         """
         output = []
-        for letter in text:
+        for letter in text.lower():
 
             if letter not in ALPHABET:
                 # Non-letter characters pass unchanged

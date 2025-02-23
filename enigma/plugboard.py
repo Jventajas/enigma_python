@@ -14,10 +14,12 @@ class Plugboard:
 
         :param connections: A list of two-letter strings (e.g., ['ab', 'cd', 'ef'])
         """
-        self.mapping = dict(zip(ALPHABET, ALPHABET))
+        if connections:
+            connections = connections.lower().split(" ")
+        else:
+            connections = []
 
-        if not connections:
-            return
+        self.mapping = dict(zip(ALPHABET, ALPHABET))
 
         # Check for duplicate letters in the connections
         all_plug_letters = ''.join(connections)

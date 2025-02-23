@@ -40,7 +40,7 @@ async def encode(
         reflector: str = Form(...),
 
         # Plugboard settings
-        plugboard_connections: str = Form(None)
+        plugboard_connections: str = Form("")
 ):
 
     try:
@@ -48,8 +48,6 @@ async def encode(
         rotors = [left_rotor, center_rotor, right_rotor]
         initial_positions = [x.lower() for x in (left_initial_position, center_initial_position, right_initial_position)]
         ring_settings = [x.lower() for x in (left_ring_setting, center_ring_setting, right_ring_setting)]
-        if plugboard_connections:
-            plugboard_connections = plugboard_connections.lower().split(" ")
 
         enigma = Enigma(
             rotors=rotors,
