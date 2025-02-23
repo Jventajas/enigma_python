@@ -14,7 +14,6 @@ def test_get_index():
     # Check a typical title from the template
     assert "Enigma Machine" in response.text
 
-
 def get_valid_form_data():
     return {
         "plaintext": "HELLO WORLD",
@@ -30,7 +29,6 @@ def get_valid_form_data():
         "reflector": "B",
         "plugboard_connections": "AB CD"
     }
-
 
 def test_post_valid_input():
     data = get_valid_form_data()
