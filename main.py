@@ -1,3 +1,4 @@
+from mangum import Mangum
 from fastapi import FastAPI, Request, Form
 from fastapi.responses import HTMLResponse
 from fastapi.staticfiles import StaticFiles
@@ -10,6 +11,7 @@ app = FastAPI()
 templates = Jinja2Templates(directory="templates")
 app.mount("/static", StaticFiles(directory="static"), name="static")
 
+handler = Mangum(app)
 
 @app.get("/", response_class=HTMLResponse)
 async def read_form(request: Request):
